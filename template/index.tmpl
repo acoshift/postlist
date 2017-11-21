@@ -1,0 +1,9 @@
+{{define "body"}}
+<h1>Post List</h1>
+<a href=/create>Create</a>
+<ul>
+{{range .Posts}}
+  <li>{{.Name}}: {{.Content}}</li>
+{{end}}
+</ul>
+{{end}}

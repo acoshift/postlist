@@ -1,0 +1,19 @@
+steps:
+- name: 'gcr.io/cloud-builders/go'
+  args: ['build', '-o', 'postlist', '-a', '-ldflags', '-w -s', 'cmd/postlist/main.go']
+  env:
+  - 'PROJECT_ROOT=github.com/acoshift/postlist'
+  - 'GOOS=linux'
+  - 'GOARCH=amd64'
+  - 'CGO_ENABLED=0'
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/postlist:$COMMIT_SHA', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/postlist:$COMMIT_SHA']
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: ['set', 'image', 'deploy/$_DEPLOYMENT', 'postlist=gcr.io/$PROJECT_ID/postlist:$COMMIT_SHA']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=$_CLOUDSDK_COMPUTE_ZONE'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=$_CLOUDSDK_CONTAINER_CLUSTER'
+images:
+- 'gcr.io/$PROJECT_ID/postlist:$COMMIT_SHA'
