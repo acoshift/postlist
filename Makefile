@@ -9,4 +9,3 @@ build:
 
 docker: clean build
 	docker build -t postlist .
-
