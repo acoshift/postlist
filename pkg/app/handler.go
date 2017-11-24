@@ -7,6 +7,7 @@ import (
 	"github.com/acoshift/postlist/pkg/view"
 )
 
+// MakeHandler creates new app's handler
 func MakeHandler(db *sql.DB) http.Handler {
 	mux := http.NewServeMux()
 	mux.Handle("/", makeIndexHandler(db))
