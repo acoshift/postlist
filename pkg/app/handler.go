@@ -26,11 +26,11 @@ func makeIndexHandler(db *sql.DB) http.Handler {
 		ctx := r.Context()
 
 		rows, err := db.QueryContext(ctx, `
-            select
-                name, content
-            from posts
-            order by created_at desc
-        `)
+			select
+				name, content
+			from posts
+			order by created_at desc
+		`)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -73,12 +73,12 @@ func makeCreateHandler(db *sql.DB) http.Handler {
 			ctx := r.Context()
 
 			_, err := db.ExecContext(ctx, `
-                insert into posts (
-                    name, content
-                ) values (
-                    $1, $2
-                )
-            `, name, content)
+				insert into posts (
+					name, content
+				) values (
+					$1, $2
+				)
+			`, name, content)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
